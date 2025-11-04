@@ -9,7 +9,6 @@ export const createJob = async (req, res) => {
 
     const { title, description, location, jobType, salaryRange, category, company } = req.body;
 
-    // Ensure company object is always valid
     const companyData = company || { name: "", logo: "", website: "" };
 
     // Assign recruiterId from the authenticated user
@@ -30,13 +29,13 @@ export const createJob = async (req, res) => {
       job: newJob,
     });
   } catch (error) {
-    console.error("Create job error:", error); // logs full error in backend console
+    console.error("Create job error:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
 
-// ✅ Get All Jobs (admin or recruiter)
+// Get All Jobs
 export const getAllJobs = async (req, res) => {
   try {
     const jobs = await Job.find().populate("recruiterId", "name email role");
@@ -46,7 +45,7 @@ export const getAllJobs = async (req, res) => {
   }
 };
 
-// ✅ Get Single Job
+// Get Single Job
 export const getJobById = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id);
@@ -57,7 +56,7 @@ export const getJobById = async (req, res) => {
   }
 };
 
-// ✅ Update Job
+// Update Job
 export const updateJob = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id);
@@ -80,7 +79,7 @@ export const updateJob = async (req, res) => {
   }
 };
 
-// ✅ Delete Job
+// Delete Job
 export const deleteJob = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id);

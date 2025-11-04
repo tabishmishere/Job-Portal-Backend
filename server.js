@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import connectDB from "./dbconn.js";
+import connectDB from "../Backend/config/dbconn.js";
 import userRoutes from "./routers/userRouters.js";
 import cors from 'cors'
 import jobRoutes from "./routers/jobRoutes.js";
@@ -10,10 +10,10 @@ connectDB();
 
 const app = express();
 app.use(cors({
-    origin: "http://localhost:5173", 
-     methods: ["GET", "POST", "PUT", "DELETE"],// frontend URL
-    credentials: true,
-  }));
+  origin: "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "DELETE"],// frontend URL
+  credentials: true,
+}));
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
