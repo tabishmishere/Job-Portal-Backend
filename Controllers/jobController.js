@@ -2,16 +2,12 @@ import Job from "../models/Job.js";
 
 export const createJob = async (req, res) => {
   try {
-    // Check if user is available from protect middleware
     if (!req.user) {
       return res.status(401).json({ message: "Not authorized" });
     }
-
     const { title, description, location, jobType, salaryRange, category, company } = req.body;
-
     const companyData = company || { name: "", logo: "", website: "" };
 
-    // Assign recruiterId from the authenticated user
     const newJob = await Job.create({
       title,
       description,
@@ -19,7 +15,7 @@ export const createJob = async (req, res) => {
       jobType,
       salaryRange,
       category,
-      recruiterId: req.user._id, // use _id from Mongoose
+      recruiterId: req.user._id,
       company: companyData,
     });
 
