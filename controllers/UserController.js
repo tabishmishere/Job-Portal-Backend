@@ -63,7 +63,7 @@ export const getUserById = async (req, res) => {
   }
 };
 
-// Update user info
+// Update user
 export const updateUser = async (req, res) => {
   const { name, email } = req.body;
   try {

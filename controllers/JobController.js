@@ -27,7 +27,6 @@ export const createJob = async (req, res) => {
       location,
       jobType,
       salaryRange,
-      skillsRequired,
       category,
       recruiterId,
       company,
@@ -39,7 +38,7 @@ export const createJob = async (req, res) => {
       description,
       location,
       jobType,
-       salaryRange,
+      salaryRange,
       category,
       recruiterId,
       company,
@@ -67,7 +66,7 @@ export const updateJob = async (req, res) => {
     const updates = req.body;
 
     const updatedJob = await Job.findByIdAndUpdate(jobId, updates, {
-      new: true, 
+      new: true,
     });
 
     if (!updatedJob) {
