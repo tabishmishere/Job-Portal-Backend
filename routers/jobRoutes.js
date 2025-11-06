@@ -13,10 +13,7 @@ import { authorizeRoles } from "../middlewares/rolemiddleware.js";
 
 const router = express.Router();
 
-// Create job - only recruiters
 router.post("/", protect, authorizeRoles("recruiter"), createJob);
-
-// Get all jobs - public
 router.get("/", getAllJobs);
 
 // Get jobs for authenticated recruiter

@@ -6,9 +6,7 @@ export const createJob = async (req, res) => {
     if (!req.user) {
       return res.status(401).json({ message: "Not authorized" });
     }
-
     const { title, description, location, jobType, salaryRange, category, company } = req.body;
-
     const companyData = company || { name: "", logo: "", website: "" };
 
     const newJob = await Job.create({
