@@ -9,7 +9,7 @@ import {
 } from "../Controllers/userController.js";
 
 import { protect } from "../middlewares/authMiddleware.js";
-import { authorizeRoles } from "../middlewares/roleMiddleware.js";
+import { authorizeRoles } from "../middlewares/rolemiddleware.js";
 
 const router = express.Router();
 const upload = multer({ dest: "uploads/" });
