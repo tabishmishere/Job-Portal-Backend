@@ -1,7 +1,7 @@
 // backend/server.js
 import express from "express";
 import dotenv from "dotenv";
-import connectDB from "./dbconn.js";
+import connectDB from "./config/dbconn.js";
 import cors from "cors";
 import path from "path";
 import userRoutes from "./routers/userRouters.js";
