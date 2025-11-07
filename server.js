@@ -1,35 +1,35 @@
 import express from "express";
-import cors from "cors";
 import dotenv from "dotenv";
-import morgan from "morgan";
-
-import connectDB from "./config/db.js";
-import jobRoutes from "./routes/JobRoute.js";
-import applicationRoutes from "./routes/ApplicationRoutes.js";
-import userRoutes from "./routes/UserRoutes.js";
+import connectDB from "./config/dbconn.js";
+import cors from "cors";
+import path from "path";
+import userRoutes from "./routers/userRouters.js";
+import jobRoutes from "./routers/jobRoutes.js";
+import applicationRoutes from "./routers/applicationRoutes.js";
 
 dotenv.config();
+connectDB();
 
 const app = express();
 
-// Middleware setup
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173", 
+  credentials: true
+}));
 app.use(express.json());
-app.use(morgan("dev"));
+app.use("/uploads/cv", express.static(path.join(process.cwd(), "uploads/cv")));
+app.use("/uploads", express.static("uploads"));
 
-// Connect to MongoDB
-connectDB();
 
-// Routes
+app.use("/api", userRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/applications", applicationRoutes);
-app.use("/api/users", userRoutes);
 
-// Basic route to test server
-app.get("/", (req, res) => {
-  res.send("API is running...");
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Something went wrong!" });
 });
 
-// Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`RUNNING PORT: ${PORT}`));
