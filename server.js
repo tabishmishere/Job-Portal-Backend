@@ -1,7 +1,6 @@
-// backend/server.js
 import express from "express";
 import dotenv from "dotenv";
-import connectDB from "./dbconn.js";
+import connectDB from "./config/dbconn.js";
 import cors from "cors";
 import path from "path";
 import userRoutes from "./routers/userRouters.js";
@@ -13,19 +12,20 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
-
+app.use(cors({
+  origin: "http://localhost:5173", // ✅ Vite frontend
+  credentials: true
+}));
 app.use(express.json());
 app.use("/uploads/cv", express.static(path.join(process.cwd(), "uploads/cv")));
-
-// Mount routers
-app.use("/api", userRoutes);           // user routes (signup, login, etc.)
-app.use("/api/jobs", jobRoutes);       // jobs
-app.use("/api/applications", applicationRoutes);
 app.use("/uploads", express.static("uploads"));
 
+// ✅ Mount routers
+app.use("/api", userRoutes);
+app.use("/api/jobs", jobRoutes);
+app.use("/api/applications", applicationRoutes);
 
-// Error handler
+// ✅ Error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: "Something went wrong!" });
