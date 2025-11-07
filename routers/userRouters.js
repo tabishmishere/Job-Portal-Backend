@@ -1,4 +1,3 @@
-// routes/userRoutes.js
 import express from "express";
 import multer from "multer";
 import {
@@ -6,20 +5,25 @@ import {
   createAllUsers,
   loginUser,
   updateUser,
+  verifyEmail,
+  resendVerificationLink,
 } from "../Controllers/userController.js";
-
 import { protect } from "../middlewares/authMiddleware.js";
 import { authorizeRoles } from "../middlewares/rolemiddleware.js";
 
 const router = express.Router();
 const upload = multer({ dest: "uploads/" });
 
-// Public routes
-router.post("/signup", createAllUsers);
-router.post("/login", loginUser);
+// ✅ Email verification
+router.get("/users/verify/:token", verifyEmail);
+router.post("/users/resend-verification", resendVerificationLink);
 
-// Protected routes
-router.get("/users", protect, authorizeRoles("admin"), getAllUsers); // Only admin can access all users
-router.put("/user/:id", protect, upload.single("avatar"), updateUser); // Authenticated users can update themselves
+// ✅ Public routes
+router.post("/users/signup", createAllUsers);
+router.post("/users/login", loginUser);
+
+// ✅ Protected routes
+router.get("/users", protect, authorizeRoles("admin"), getAllUsers);
+router.put("/users/:id", protect, upload.single("avatar"), updateUser);
 
 export default router;
