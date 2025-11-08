@@ -14,15 +14,15 @@ import { authorizeRoles } from "../middlewares/rolemiddleware.js";
 const router = express.Router();
 const upload = multer({ dest: "uploads/" });
 
-// ✅ Email verification
+// Email verification
 router.get("/users/verify/:token", verifyEmail);
 router.post("/users/resend-verification", resendVerificationLink);
 
-// ✅ Public routes
+// Public routes
 router.post("/users/signup", createAllUsers);
 router.post("/users/login", loginUser);
 
-// ✅ Protected routes
+// Protected routes
 router.get("/users", protect, authorizeRoles("admin"), getAllUsers);
 router.put("/users/:id", protect, upload.single("avatar"), updateUser);
 
