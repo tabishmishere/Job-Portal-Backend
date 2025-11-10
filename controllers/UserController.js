@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 
-// Get all users (Admin only)
+
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
@@ -141,13 +141,12 @@ export const loginUser = async (req, res) => {
   }
 };
 
-// Update user (Authenticated)
 export const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, email, bio, skills } = req.body;
 
-    const avatar = req.file ? `/uploads/${req.file.filename}` : undefined;
+    const avatar = req.file ? `/api/uploads/${req.file.filename}` : undefined;
 
     const updatedUser = await User.findByIdAndUpdate(
       id,
@@ -192,7 +191,7 @@ export const verifyEmail = async (req, res) => {
     user.isVerified = true;
     await user.save();
 
-    // Send a nice HTML confirmation page
+
     res.send(`
       <html>
         <head><title>Email Verified</title></head>
@@ -234,7 +233,7 @@ export const resendVerificationLink = async (req, res) => {
 
     const verificationLink = `http://localhost:5000/api/users/verify/${token}`;
 
-    // Setup mail transporter
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {

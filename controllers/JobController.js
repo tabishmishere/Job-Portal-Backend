@@ -1,4 +1,3 @@
-// Controllers/jobController.js
 import Job from "../models/Job.js";
 
 export const createJob = async (req, res) => {
@@ -31,7 +30,7 @@ export const createJob = async (req, res) => {
   }
 };
 
-// Get All Jobs (public). Return consistent object shape.
+
 export const getAllJobs = async (req, res) => {
   try {
     const jobs = await Job.find().populate("recruiterId", "name email role");
@@ -41,7 +40,7 @@ export const getAllJobs = async (req, res) => {
   }
 };
 
-// Get jobs posted by authenticated recruiter
+
 export const getJobsByRecruiter = async (req, res) => {
   try {
     if (!req.user) return res.status(401).json({ message: "Not authorized" });
@@ -72,7 +71,7 @@ export const updateJob = async (req, res) => {
     const job = await Job.findById(req.params.id);
     if (!job) return res.status(404).json({ message: "Job not found" });
 
-    // Ensure only the recruiter who created it can update
+  
     if (job.recruiterId.toString() !== req.user._id.toString()) {
       return res.status(403).json({ message: "Not authorized to edit this job" });
     }

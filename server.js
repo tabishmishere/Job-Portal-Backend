@@ -6,6 +6,7 @@ import path from "path";
 import userRoutes from "./routers/userRouters.js";
 import jobRoutes from "./routers/jobRoutes.js";
 import applicationRoutes from "./routers/applicationRoutes.js";
+import recruiterRoutes from "./routers/recruiterRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -18,8 +19,11 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use("/uploads/cv", express.static(path.join(process.cwd(), "uploads/cv")));
-app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads"))); // user
+app.use("/api/uploads", express.static(path.join(process.cwd(), "uploads"))); // admin
 
+
+app.use("/api/recruiter", recruiterRoutes);
 
 app.use("/api", userRoutes);
 app.use("/api/jobs", jobRoutes);
