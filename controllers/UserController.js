@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 
-
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();

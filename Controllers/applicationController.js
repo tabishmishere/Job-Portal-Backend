@@ -111,3 +111,24 @@ export const getRecruiterJobs = async (req, res) => {
     res.status(500).json({ success: false, message: "Error fetching jobs" });
   }
 };
+
+export const getUserApplications = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const applications = await Application.find({ applicantId: id })
+      .populate({
+        path: "jobId",
+        select: "title companyName location jobType salary",
+      })
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({ success: true, applications });
+  } catch (error) {
+    console.error("Error fetching user applications:", error);
+    res.status(500).json({ success: false, message: "Failed to fetch applications" });
+  }
+};
+
+
+
