@@ -2,7 +2,6 @@ import express from "express";
 import { applyToJob, getRecruiterApplications, updateApplicationStatus } from "../Controllers/applicationController.js";
 import { protect } from "../middlewares/authMiddleware.js"; 
 import { upload } from "../middlewares/upload.js";
-//@ts-ignore
 import { getUserApplications } from "../controllers/applicationController.js";
 
 

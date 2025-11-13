@@ -116,19 +116,28 @@ export const getUserApplications = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const applications = await Application.find({ applicantId: id })
+    let applications = await Application.find({ applicantId: id })
       .populate({
         path: "jobId",
-        select: "title companyName location jobType salary",
+        select: "title location jobType salary company", // include 'company' object
       })
       .sort({ createdAt: -1 });
+
+    // Map jobId to job for frontend convenience
+    applications = applications.map((app) => {
+      const obj = app.toObject();
+      obj.job = obj.jobId; // add 'job' field
+      delete obj.jobId;
+      // Ensure company.name exists so frontend can use app.job.company.name
+      if (!obj.job.company) obj.job.company = { name: "N/A" };
+      return obj;
+    });
 
     res.status(200).json({ success: true, applications });
   } catch (error) {
     console.error("Error fetching user applications:", error);
     res.status(500).json({ success: false, message: "Failed to fetch applications" });
   }
-};
-
+}
 
 
