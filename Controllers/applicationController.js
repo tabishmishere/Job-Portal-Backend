@@ -16,7 +16,7 @@ export const applyToJob = async (req, res) => {
 
     const { education, experience, skills, message } = req.body;
 
-   const cvFile = req.file ? `/uploads/${req.file.filename}` : null;
+   const cvFile = req.file ? `/uploads/cv/${req.file.filename}` : null;
 if (!cvFile) return res.status(400).json({ success: false, message: "CV is required" });
 
     // Update User profile
@@ -24,7 +24,7 @@ if (!cvFile) return res.status(400).json({ success: false, message: "CV is requi
       education,
       experience,
       skills: skills ? skills.split(",").map(s => s.trim()) : [],
-      cvUrl: `/uploads/cv/${req.file.filename}`,
+      cvUrl: cvFile,
     });
 
     const application = await Application.create({
@@ -33,7 +33,7 @@ if (!cvFile) return res.status(400).json({ success: false, message: "CV is requi
       education,
       experience,
       skills: skills ? skills.split(",") : [],
-      cv: `/uploads/cv/${req.file.filename}`,
+      cv: cvFile,
       message,
     });
 
@@ -119,16 +119,13 @@ export const getUserApplications = async (req, res) => {
     let applications = await Application.find({ applicantId: id })
       .populate({
         path: "jobId",
-        select: "title location jobType salary company", // include 'company' object
+        select: "title location jobType salary company",
       })
       .sort({ createdAt: -1 });
-
-    // Map jobId to job for frontend convenience
     applications = applications.map((app) => {
       const obj = app.toObject();
-      obj.job = obj.jobId; // add 'job' field
+      obj.job = obj.jobId;
       delete obj.jobId;
-      // Ensure company.name exists so frontend can use app.job.company.name
       if (!obj.job.company) obj.job.company = { name: "N/A" };
       return obj;
     });

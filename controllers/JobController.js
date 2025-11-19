@@ -30,7 +30,7 @@ export const createJob = async (req, res) => {
   }
 };
 
-// Get All Jobs (public). Return consistent object shape.
+// Get All Jobs 
 export const getAllJobs = async (req, res) => {
   try {
     const jobs = await Job.find().populate("recruiterId", "name email role");
