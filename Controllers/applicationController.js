@@ -119,7 +119,7 @@ export const getUserApplications = async (req, res) => {
     const applications = await Application.find({ applicantId: id })
       .populate({
         path: "jobId",
-        select: "title companyName location jobType salary",
+         select: "title location jobType salary company",
       })
       .sort({ createdAt: -1 });
 

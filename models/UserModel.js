@@ -12,9 +12,12 @@ education: String,
 experience: String,
 skills: [String],
 cvUrl: String,
-profile: {
-avatar: { type: String, default: "" },
-},
+ profile: {
+      bio: String,
+      skills: [String],
+      resume: String,
+      avatar: String,
+    },
 },
 { timestamps: true }
 );

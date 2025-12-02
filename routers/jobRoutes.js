@@ -6,7 +6,7 @@ import {
   updateJob,
   deleteJob,
   getJobsByRecruiter,
-} from "../Controllers/jobController.js";
+} from "../controllers/jobController.js";
 import { protect } from "../middlewares/authMiddleware.js";
 import { authorizeRoles } from "../middlewares/rolemiddleware.js";
 
